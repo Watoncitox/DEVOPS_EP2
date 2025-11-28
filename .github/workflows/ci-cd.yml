@@ -52,8 +52,8 @@ jobs:
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Snyk test (auto-detect)
-        run: snyk test --all-projects --detection-depth=4 --severity-threshold=high
+      - name: Snyk monitor (upload pom.xml)
+        run: snyk monitor --file=pom.xml --package-manager=maven
 
 
   build_docker:

@@ -43,15 +43,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Install Maven
-        run: sudo apt-get install -y maven
-
       - name: Install Snyk CLI
         run: |
           curl -sL https://static.snyk.io/cli/latest/snyk-linux -o snyk
@@ -61,10 +52,8 @@ jobs:
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Snyk test (Maven project)
-        run: snyk test --file=pom.xml --package-manager=maven --severity-threshold=high
-
-
+      - name: Run Snyk test (auto-detect)
+        run: snyk test --all-projects --detection-depth=4 --severity-threshold=high
 
 
   build_docker:

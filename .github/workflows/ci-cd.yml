@@ -43,13 +43,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Snyk vulnerability scan
-        uses: snyk/actions/maven@master
+      - name: Install Maven
+        run: sudo apt-get install -y maven
+
+      - name: Install Snyk CLI
+        run: |
+          curl -sL https://static.snyk.io/cli/latest/snyk-linux -o snyk
+          chmod +x snyk
+          sudo mv snyk /usr/local/bin/
+
+      - name: Run Snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
-          # Si hay vulnerabilidades críticas o altas, el pipeline se detiene.
+        run: snyk test --severity-threshold=high --all-projects
+
 
 
   build_docker:

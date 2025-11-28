@@ -80,7 +80,7 @@ jobs:
 
 
   deploy:
-    name: Deploy using Docker Compose
+    name: Deploy (Simulated)
     runs-on: ubuntu-latest
     needs: build_docker
 
@@ -88,13 +88,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Docker Compose
+      - name: Simulating deploy to cloud environment
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
+          echo "Starting simulated deploy..."
+          echo "Pulling image from Docker Hub"
+          echo "docker pull watoncitoxx/style-and-beauty-api:latest"
+          echo "Simulated deploy complete!"
 
-      - name: Deploy application with Docker Compose
-        run: |
-          docker-compose down || true
-          docker-compose pull || true
-          docker-compose up -d --build
